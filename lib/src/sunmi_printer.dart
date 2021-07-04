@@ -8,6 +8,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:flutter_sunmi_printer/src/enums.dart';
 import 'sunmi_col.dart';
@@ -23,9 +24,12 @@ class SunmiPrinter {
   static const String UNDERLINE_ON = "underlineOn";
   static const String UNDERLINE_OFF = "underlineOff";
   static const String EMPTY_LINES = "emptyLines";
-  static const String PRINT_TEXT = "printText";
-  static const String PRINT_ROW = "printRow";
+  static const String PRINT_BARCODE = 'printBarCode';
+  static const String PRINT_BITMAP = 'printBitmap';
   static const String PRINT_IMAGE = "printImage";
+  static const String PRINT_QRCODE = 'printQRCode';
+  static const String PRINT_ROW = "printRow";
+  static const String PRINT_TEXT = "printText";
   static const String CUT_PAPER = "cutPaper";
 
   static const MethodChannel _channel =
@@ -133,7 +137,36 @@ class SunmiPrinter {
     });
   }
 
+  static Future<void> bitmap(Uint8List bitmap,
+      {SunmiAlign align: SunmiAlign.center}) async {
+    await _channel.invokeMethod(PRINT_BITMAP, {
+      "bitmap": bitmap,
+      "align": align.value,
+    });
+  }
+
   static Future<void> cutPaper() async {
     await _channel.invokeMethod(CUT_PAPER);
+  }
+
+  static Future<void> barcode(String text, int height, int width,
+      {Symbology symbology = Symbology.code39,
+      TextPosition textPos = TextPosition.belowBarcode}) async {
+    await _channel.invokeMapMethod(PRINT_BARCODE, {
+      "text": text,
+      "symbology": symbology.value,
+      "height": height,
+      "width": width,
+      "textPosition": textPos.value,
+    });
+  }
+
+  static Future<void> qrcode(String text,
+      {int moduleSize = 7, ErrorLevel errorLevel = ErrorLevel.l}) async {
+    await _channel.invokeMapMethod(PRINT_QRCODE, {
+      "text": text,
+      "moduleSize": moduleSize,
+      "errorLevel": errorLevel.value,
+    });
   }
 }

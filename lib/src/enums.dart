@@ -23,3 +23,35 @@ class SunmiSize {
   static const lg = SunmiSize._internal(36);
   static const xl = SunmiSize._internal(42);
 }
+
+class ErrorLevel {
+  const ErrorLevel._internal(this.value);
+  final int value;
+  static const l = ErrorLevel._internal(0);
+  static const m = ErrorLevel._internal(1);
+  static const q = ErrorLevel._internal(2);
+  static const h = ErrorLevel._internal(3);
+}
+
+class Symbology {
+  const Symbology._internal(this.value);
+  final int value;
+  static const upca = Symbology._internal(0);
+  static const upce = Symbology._internal(1);
+  static const ean13 = Symbology._internal(2);
+  static const ean8 = Symbology._internal(3);
+  static const code39 = Symbology._internal(4);
+  static const itf = Symbology._internal(5);
+  static const codebar = Symbology._internal(6);
+  static const code93 = Symbology._internal(7);
+  static const code128 = Symbology._internal(8);
+}
+
+class TextPosition {
+  const TextPosition._internal(this.value);
+  final int value;
+  static const noPrintText = TextPosition._internal(0);
+  static const aboveBarcode = TextPosition._internal(1);
+  static const belowBarcode = TextPosition._internal(2);
+  static const both = TextPosition._internal(3);
+}

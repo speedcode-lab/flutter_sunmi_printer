@@ -9,6 +9,9 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 public class FlutterSunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
   private MethodChannel channel;
   private static FlutterSunmiPrinterModule flutterSunmiPrinterModule;
@@ -25,6 +28,9 @@ public class FlutterSunmiPrinterPlugin implements FlutterPlugin, MethodCallHandl
   private String PRINT_TEXT = "printText";
   private String PRINT_ROW = "printRow";
   private String PRINT_IMAGE = "printImage";
+  private String PRINT_BITMAP = "printBitmap";
+  private String PRINT_QRCODE = "printQRCode";
+  private String PRINT_BARCODE = "printBarCode";
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
@@ -101,6 +107,26 @@ public class FlutterSunmiPrinterPlugin implements FlutterPlugin, MethodCallHandl
       String base64 = call.argument("base64");
       int align = call.argument("align");
       flutterSunmiPrinterModule.printImage(base64, align);
+      result.success(null);
+    } else if (call.method.equals(PRINT_BITMAP)) {
+      byte[] bytes = call.argument("bitmap");
+      Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+      int align = call.argument("align");
+      flutterSunmiPrinterModule.printBitmap(bitmap, align);
+      result.success(null);
+    } else if (call.method.equals(PRINT_BARCODE)) {
+      String text = call.argument("text");
+      int symbology = call.argument("symbology");
+      int height = call.argument("height");
+      int width = call.argument("width");
+      int position = call.argument("textPosition");
+      flutterSunmiPrinterModule.printBarCode(text, symbology, height, width, position);
+      result.success(null);
+    } else if (call.method.equals(PRINT_QRCODE)) {
+      String text = call.argument("text");
+      int moduleSize = call.argument("moduleSize");
+      int errorLevel = call.argument("errorLevel");
+      flutterSunmiPrinterModule.printQRCode(text, moduleSize, errorLevel);
       result.success(null);
     } else {
       result.notImplemented();

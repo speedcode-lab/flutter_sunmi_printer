@@ -61,6 +61,17 @@ class _MyAppState extends State<MyApp> {
     final imgData = base64.encode(Uint8List.view(buffer));
     SunmiPrinter.image(imgData);
 
+    // Test bitmap
+    ByteData bitmapBytes = await rootBundle.load('assets/logo_grayscale.jpg');
+    final bitmapBuffer = bitmapBytes.buffer;
+    SunmiPrinter.bitmap(Uint8List.view(bitmapBuffer));
+
+    // Test QR code
+    SunmiPrinter.qrcode("test QR code", moduleSize: 7);
+
+    // Test barcode
+    SunmiPrinter.barcode("123456789", 40, 14);
+
     SunmiPrinter.emptyLines(3);
   }
 

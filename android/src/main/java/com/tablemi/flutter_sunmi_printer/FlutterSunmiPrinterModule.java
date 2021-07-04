@@ -7,6 +7,7 @@ import com.tablemi.flutter_sunmi_printer.utils.AidlUtil;
 import com.tablemi.flutter_sunmi_printer.utils.Base64Utils;
 import com.tablemi.flutter_sunmi_printer.utils.BitmapUtil;
 import com.tablemi.flutter_sunmi_printer.utils.ESCUtil;
+import android.graphics.Bitmap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -133,6 +134,14 @@ public class FlutterSunmiPrinterModule {
     }
   }
 
+  public void printBarCode(String data, int symbology, int height, int width, int textPosition) {
+    AidlUtil.getInstance().printBarCode(data, symbology, height, width, textPosition);
+  }
+
+  public void printBitmap(Bitmap bitmap, int align) {
+    AidlUtil.getInstance().printBitmap(bitmap, align);
+  }
+
   public void printImage(String base64, int align) {
     byte[] bytes = Base64Utils.decode(base64);
     for (int i = 0; i < bytes.length; ++i) {
@@ -143,5 +152,9 @@ public class FlutterSunmiPrinterModule {
     }
     AidlUtil.getInstance().printBitmap(BitmapUtil.convertToThumb(bytes, 280), align);
     // AidlUtil.getInstance().lineWrap(1);
+  }
+
+  public void printQRCode(String data, int moduleSize, int errorLevel) {
+    AidlUtil.getInstance().printQRCode(data, moduleSize, errorLevel);
   }
 }

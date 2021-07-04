@@ -184,7 +184,7 @@ public class AidlUtil {
     /**
      * 打印二维码
      */
-    public void printQr(String data, int modulesize, int errorlevel) {
+    public void printQRCode(String data, int modulesize, int errorlevel) {
         if (woyouService == null) {
             return;
         }
